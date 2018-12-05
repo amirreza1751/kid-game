@@ -46,7 +46,7 @@ class SubscribeController extends Controller
             ]
         ];
 
-        $response = Curl::to('https://uinames.com/api')
+        $response = Curl::to('')
             ->withData($array)->get();
 
         return response()->json($response, 200);
