@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PushRequestController extends Controller
+class ChargingConfirmationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,18 +27,15 @@ class PushRequestController extends Controller
     {
         $request = $request->all();
         $array = [
-                "servicekey" => $request['servicekey'],
-                "msisdn" => $request['msisdn'],
-                "serviceName" => $request['serviceName'],
-                "referenceCode" => $request['referenceCode'],
-                "shortCode" => $request['shortCode'],
-                "contentId" => $request['contentId'],
-                "code" => $request['code'],
-                "amount" => $request['amount'],
-                "description" => $request['description']
+            "servicekey" => $request['servicekey'],
+            "msisdn" => $request['msisdn'],
+            "otpTransactionId" => $request['otpTransactionId'],
+            "referenceCode" => $request['referenceCode'],
+            "shortCode" => $request['shortCode'],
+            "transactionPIN" => $request['transactionPIN'],
         ];
 
-        $response = Curl::to('https://charging.atiehcom.ir/otp/request?user=USER&password=PASSWORD')
+        $response = Curl::to('https://charging.hub.ir/otp/confirm?user=USER&password=PASSWORD')
             ->withData($array)->get();
 
         return response()->json($response, 200);
