@@ -38,8 +38,7 @@ class PushRequestController extends Controller
                 "description" => $request['description']
         ];
 
-        $response = Curl::to('https://charging.atiehcom.ir/otp/request?user=USER&password=PASSWORD')
-            ->withData($array)->get();
+        $response = Curl::to('https://charging.atiehcom.ir/otp/request?user=USER&password=PASSWORD')->withData($array)->get();
 
         return response()->json($response, 200);
     }

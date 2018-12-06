@@ -27,7 +27,6 @@ class NotificationController extends Controller
     {
         $request = $request->all();
         $array = [
-            'notification' => [
                 "sid" => $request['sid'],
                 "msisdn" => $request['msisdn'],
                 "trans-id" => $request['trans-id'],
@@ -42,11 +41,9 @@ class NotificationController extends Controller
                 "validity" => $request['validity'],
                 "next_renewal_date" => $request['next_renewal_date'],
                 "status" => $request['status'],
-            ]
         ];
 
-        $response = Curl::to('')
-            ->withData($array)->get();
+        $response = Curl::to('')->withData($array)->get();
 
         return response()->json($response, 200);
     }

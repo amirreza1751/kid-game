@@ -28,26 +28,25 @@ class SubscribeController extends Controller
     {
         $array = [
             'Sub_unsub' => [
-                "sid" => "3941",
-                "trans-id" => "PROV_151858681695675611811",
-                "status" => "0",
-                "base-price-point" => "0",
-                "msisdn" => "989140169772",
-                "keyword" => "",
-                "validity" => 1,
-                "next_renewal_date" => "2021-07-25 23:41:46.691",
-                "shortcode" => "",
-                "billed-price-point" => "",
-                "trans-status" => 0,
-                "chargeCode" => "ATIUSUBSUBCATICHAN",
-                "datetime" => "2018-02-14 09:10:20",
-                "event-type" => "1.2",
-                "channel" => "TAJMI"
+                "sid" => $request['sid'],
+                "trans-id" => $request['trans-id'],
+                "status" => $request['status'],
+                "base-price-point" => $request['base-price-point'],
+                "msisdn" => $request['msisdn'],
+                "keyword" => $request['keyword'],
+                "validity" => $request['validity'],
+                "next_renewal_date" => $request['next_renewal_date'],
+                "shortcode" => $request['shortcode'],
+                "billed-price-point" => $request['billed-price-point'],
+                "trans-status" => $request['trans-status'],
+                "chargeCode" => $request['chargeCode'],
+                "datetime" => $request['datetime'],
+                "event-type" => $request['event-type'],
+                "channel" => $request['channel']
             ]
         ];
 
-        $response = Curl::to('')
-            ->withData($array)->get();
+        $response = Curl::to('')->withData($array)->get();
 
         return response()->json($response, 200);
 

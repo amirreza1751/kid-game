@@ -35,8 +35,7 @@ class ChargingConfirmationController extends Controller
             "transactionPIN" => $request['transactionPIN'],
         ];
 
-        $response = Curl::to('https://charging.hub.ir/otp/confirm?user=USER&password=PASSWORD')
-            ->withData($array)->get();
+        $response = Curl::to('https://charging.hub.ir/otp/confirm?user=USER&password=PASSWORD')->withData($array)->get();
 
         return response()->json($response, 200);
     }
