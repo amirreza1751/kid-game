@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,26 +27,32 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         $request = $request->all();
-        $array = [
-                "sid" => $request['sid'],
-                "msisdn" => $request['msisdn'],
-                "trans-id" => $request['trans-id'],
-                "trans-status" => $request['trans-status'],
-                "datetime" => $request['datetime'],
-                "channel" => $request['channel'],
-                "shortcode" => $request['shortcode'],
-                "keyword" => $request['keyword'],
-                "charge-code" => $request['charge-code'],
-                "billed-price-point" => $request['billed-price-point'],
-                "event-type" => $request['event-type'],
-                "validity" => $request['validity'],
-                "next_renewal_date" => $request['next_renewal_date'],
-                "status" => $request['status'],
-        ];
 
-        $response = Curl::to('')->withData($array)->get();
+        $notification = Notification::create($request);
+        return response()->json($notification, 200);
 
-        return response()->json($response, 200);
+        /**
+        if request array changed, we can use this array
+         *
+            $array = [
+            "sid" => $request['sid'],
+            "msisdn" => $request['msisdn'],
+            "trans-id" => $request['trans-id'],
+            "trans-status" => $request['trans-status'],
+            "datetime" => $request['datetime'],
+            "channel" => $request['channel'],
+            "shortcode" => $request['shortcode'],
+            "keyword" => $request['keyword'],
+            "charge-code" => $request['charge-code'],
+            "billed-price-point" => $request['billed-price-point'],
+            "event-type" => $request['event-type'],
+            "validity" => $request['validity'],
+            "next_renewal_date" => $request['next_renewal_date'],
+            "status" => $request['status'],
+            ];
+         *
+         */
+
     }
 
     /**

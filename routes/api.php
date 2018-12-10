@@ -20,10 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //doc 1
 Route::get('/sub_unsub', 'API\SubscribeController@store');
+Route::get('/renewal_charges', 'API\SubscribeController@store');
 
 
 //doc2
-Route::get('/notification', 'API\NotificationController@store');
+Route::post('/notification', 'API\NotificationController@store');
 
 
 
