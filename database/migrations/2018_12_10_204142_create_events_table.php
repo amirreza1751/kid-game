@@ -15,6 +15,23 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->string('sid');
+            $table->string('trans-id');
+            $table->string('status');
+            $table->string('base-price-point');
+            $table->string('msisdn');
+            $table->string('keyword');
+            $table->string('validity');
+            $table->string('next_renewal_date');
+            $table->string('shortcode');
+            $table->string('billed-price-point');
+            $table->string('trans-status');
+            $table->string('chargeCode');
+            $table->string('datetime');
+            $table->string('event-type');
+            $table->string('channel');
+
             $table->timestamps();
         });
     }

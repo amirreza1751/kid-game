@@ -19,8 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //doc 1
-Route::get('/sub_unsub', 'API\SubscribeController@store');
-Route::get('/renewal_charges', 'API\SubscribeController@store');
+Route::post('/sub_unsub', 'API\EventController@store');
+Route::post('/renewal_charges', 'API\EventController@store');
 
 
 //doc2
