@@ -41,30 +41,9 @@ class EventController extends Controller
             }
             return response()->json('Stored.', 200);
         }
-//        $array = [
-//            'Sub_unsub' => [
-//                "sid" => $request['sid'],
-//                "trans-id" => $request['trans-id'],
-//                "status" => $request['status'],
-//                "base-price-point" => $request['base-price-point'],
-//                "msisdn" => $request['msisdn'],
-//                "keyword" => $request['keyword'],
-//                "validity" => $request['validity'],
-//                "next_renewal_date" => $request['next_renewal_date'],
-//                "shortcode" => $request['shortcode'],
-//                "billed-price-point" => $request['billed-price-point'],
-//                "trans-status" => $request['trans-status'],
-//                "chargeCode" => $request['chargeCode'],
-//                "datetime" => $request['datetime'],
-//                "event-type" => $request['event-type'],
-//                "channel" => $request['channel']
-//            ]
-//        ];
 
-//        $response = Curl::to('')->withData($array)->get();
+        else return response()->json('Bad request', 400);
 
-//        return response()->json($response, 200);
-return "false";
 
     }
 
