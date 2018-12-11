@@ -32,12 +32,14 @@ class EventController extends Controller
             foreach ($request['Sub_unsub'] as $item){
                 Event::create($item);
             }
+            return response()->json('Stored.', 200);
         }
 
         elseif (isset($request['charges'])){
             foreach ($request['charges'] as $item){
                 Event::create($item);
             }
+            return response()->json('Stored.', 200);
         }
 //        $array = [
 //            'Sub_unsub' => [
