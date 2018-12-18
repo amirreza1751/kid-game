@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Event;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ixudra\Curl\Facades\Curl;
@@ -30,7 +31,23 @@ class EventController extends Controller
         $request = $request->all();
         if (isset($request['Sub_unsub'])){
             foreach ($request['Sub_unsub'] as $item){
+
                 Event::create($item);
+
+                if ($item['event-type'] == 1.1){     /** yani karbar subscribe shode */
+                    $user = User::where('mobile_number', $item['msisdn'])->first();
+                    if (!isset($user)){     /** dare check mikone ke age in karbar ghablan sabt shode bude dobare nasazesh. */
+                        User::create([
+                            'mobile_number' => $item['msisdn']
+                        ]);
+                    }
+                }
+                if ($item['event-type'] == 1.2){     /** yani karbar un-subscribe shode */
+                    $user = User::where('mobile_number', $item['msisdn'])->first();
+                    if (isset($user)){     /** dare check mikone ke age in karbar vojud dare pakesh kone. */
+                        $user->delete();
+                    }
+                }
             }
             return response()->json('Stored.', 200);
         }

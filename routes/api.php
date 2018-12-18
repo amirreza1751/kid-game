@@ -18,6 +18,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'API\Auth\AuthController@login');
+    Route::post('signup', 'API\Auth\AuthController@signup');
+
+    Route::group([
+        'middleware' => 'auth:api'
+    ], function() {
+        Route::get('logout', 'API\Auth\AuthController@logout');
+        Route::get('user', 'API\Auth\AuthController@user');
+    });
+});
+
 //doc 1
 Route::post('/sub_unsub', 'API\EventController@store');
 Route::post('/renewal_charges', 'API\EventController@store');
