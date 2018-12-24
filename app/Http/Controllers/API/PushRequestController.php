@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\OtpTransaction;
+use App\TempTransactionId;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Ixudra\Curl\Facades\Curl;
+use Webpatser\Uuid\Uuid;
 
 class PushRequestController extends Controller
 {
@@ -27,21 +32,82 @@ class PushRequestController extends Controller
     {
         $request = $request->all();
         $array = [
-                "servicekey" => $request['servicekey'],
+                "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',
                 "msisdn" => $request['msisdn'],
-                "serviceName" => $request['serviceName'],
-                "referenceCode" => $request['referenceCode'],
-                "shortCode" => $request['shortCode'],
-                "contentId" => $request['contentId'],
-                "code" => $request['code'],
+                "serviceName" => 'CESFCOACHLAND',
+                "referenceCode" => Uuid::generate()->string, // unique mal mast
+                "shortCode" => '984068210',
+                "contentId" => Uuid::generate()->string, // unique mal mast
+                "code" => '',  // nt charge code
                 "amount" => $request['amount'],
                 "description" => $request['description']
         ];
 
-        $response = Curl::to('https://charging.atiehcom.ir/otp/request?user=USER&password=PASSWORD')->withData($array)->get();
+        $response = Curl::to('https://charging.atiehcom.ir/otp/request')
+            ->withHeader('user: coachland456')
+            ->withHeader('password: 9a51a663fa7c')
+            ->withData($array)->asJson()->post();
 
-        return response()->json($response, 200);
+
+        if ($response != false) {
+            if ($response['statusCode'] == 200){
+                $user_id = auth('api')->user()->id;
+                OtpTransaction::create([
+                    'user_id' => $user_id,
+                    'otp_transaction_id' => $response['OTPTransactionId']
+                ]);
+                return response()->json('otp_transaction_id received.', 200);
+            }
+            return response()->json($response, $response['statusCode']);
+        }
+        else
+            return response()->json('Bad request.', 400);
     }
+
+
+    public function subscribe_request(Request $request)
+    {
+        $request->validate([
+            'msisdn' => 'required'
+        ]);
+        $request = $request->all();
+        $array = [
+            "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',
+            "msisdn" => $request['msisdn'],
+            "serviceName" => 'CESFCOACHLAND',
+            "referenceCode" => Uuid::generate()->string, // unique mal mast
+            "shortCode" => '984068210',
+            "contentId" => Uuid::generate()->string, // unique mal mast
+            "code" => '',  // nt charge code
+            "amount" => '0',
+            "description" => ''
+        ];
+
+        $response = Curl::to('https://charging.atiehcom.ir/otp/request')
+            ->withHeader('user: coachland456')
+            ->withHeader('password: 9a51a663fa7c')
+            ->withData($array)->asJson()->post();
+
+
+        if ($response != false) {
+            if ($response['statusCode'] == 200){
+                TempTransactionId::create([
+                    'msisdn' => $request['msisdn'],
+                    'otp_transaction_id' => $response['OTPTransactionId']
+                ]);
+                return response()->json('otp_transaction_id received.', 200);
+            }
+            return response()->json($response, $response['statusCode']);
+        }
+        else
+            return response()->json('Bad request.', 400);
+    }
+
+
+
+
+
+
 
     /**
      * Display the specified resource.

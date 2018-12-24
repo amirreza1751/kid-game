@@ -1,7 +1,9 @@
 <?php
 
+use App\OtpTransaction;
 use App\User;
 use Illuminate\Http\Request;
+use Webpatser\Uuid\Uuid;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +45,22 @@ Route::post('/notification', 'API\NotificationController@store');
 
 
 //doc3
-Route::get('/push_request', 'API\PushRequestController@store');
-Route::get('/confirm', 'API\ChargingConfirmationController@store');
+Route::post('/push_request', 'API\PushRequestController@store');
+Route::post('/confirm', 'API\ChargingConfirmationController@store');
+Route::post('/subscribe_request', 'API\PushRequestController@subscribe_request');
+Route::post('/subscribe_confirm', 'API\ChargingConfirmationController@subscribe_confirm');
+
+Route::middleware('auth:api')->post('/test', function (){
+    $user = auth('api')->user();
+//    $temp = OtpTransaction::where('user_id',$user->id)->latest()->first();
+    return response()->json($user->mobile_number, 200);
+});
+
+Route::get('/uuid',function (){
+    return Uuid::generate()->string;
+});
+
+
 
 
 
