@@ -30,17 +30,21 @@ class PushRequestController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'amount' => 'required|numeric'
+        ]);
+        $user = auth('api')->user();
         $request = $request->all();
         $array = [
                 "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',
-                "msisdn" => $request['msisdn'],
+                "msisdn" => $user->mobile_number,
                 "serviceName" => 'CESFCOACHLAND',
                 "referenceCode" => Uuid::generate()->string, // unique mal mast
                 "shortCode" => '984068210',
                 "contentId" => Uuid::generate()->string, // unique mal mast
                 "code" => '',  // nt charge code
                 "amount" => $request['amount'],
-                "description" => $request['description']
+                "description" => 'request for charging'
         ];
 
         $response = Curl::to('https://charging.atiehcom.ir/otp/request')
@@ -51,9 +55,8 @@ class PushRequestController extends Controller
 
         if ($response != false) {
             if ($response['statusCode'] == 200){
-                $user_id = auth('api')->user()->id;
                 OtpTransaction::create([
-                    'user_id' => $user_id,
+                    'user_id' => $user->id,
                     'otp_transaction_id' => $response['OTPTransactionId']
                 ]);
                 return response()->json('otp_transaction_id received.', 200);

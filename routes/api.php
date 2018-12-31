@@ -45,8 +45,8 @@ Route::post('/notification', 'API\NotificationController@store');
 
 
 //doc3
-Route::post('/push_request', 'API\PushRequestController@store');
-Route::post('/confirm', 'API\ChargingConfirmationController@store');
+Route::post('/charging_request', 'API\PushRequestController@store');
+Route::post('/charging_confirm', 'API\ChargingConfirmationController@store');
 Route::post('/subscribe_request', 'API\PushRequestController@subscribe_request');
 Route::post('/subscribe_confirm', 'API\ChargingConfirmationController@subscribe_confirm');
 
