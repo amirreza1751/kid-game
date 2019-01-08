@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\OtpTransaction;
 use App\TempTransactionId;
 use App\User;
+use function Composer\Autoload\includeFile;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ixudra\Curl\Facades\Curl;
@@ -19,11 +21,16 @@ class ChargingConfirmationController extends Controller
      */
     public function index()
     {
-        $mobile_number = auth('api')->user()->mobile_number;
-        $response = Curl::to('https://charging.atiehcom.ir/user?query=getLastTransactions&phone='.$mobile_number.'&shortcode=984068210')
-            ->withHeader('user: coachland456')
-            ->withHeader('password: 9a51a663fa7c')
-            ->get();
+        $mobile_number = '989126774496';
+
+        $client = new \GuzzleHttp\Client();
+        $res = $client->get('https://charging.atiehcom.ir/user?query=getLastTransactions&phone='.$mobile_number.'&shortcode=984068210', ['Authorization' =>  ['coachland456', '9a51a663fa7c']]);
+        echo $res->getStatusCode(); // 200
+        return $res->getBody();
+
+
+//        $mobile_number = auth('api')->user()->mobile_number;
+//        $response = Curl::to('https://coachland456:9a51a663fa7c@charging.atiehcom.ir/user?query=getLastTransactions&phone='.$mobile_number.'&shortcode=984068210')->get();
 
         return response()->json($response, 200);
 
@@ -37,27 +44,29 @@ class ChargingConfirmationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'transactionPIN' => 'required'
-        ]);
-        $user = auth('api')->user();
+//        $request->validate([
+//            'transactionPIN' => 'required'
+//        ]);
+//        $user = auth('api')->user();
 
-        $otp_transaction = OtpTransaction::where('user_id',$user->id)->latest()->first();
+//        $otp_transaction = OtpTransaction::where('user_id',$user->id)->latest()->first();
         $request = $request->all();
         $array = [
             "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',
-            "msisdn" => $user->msisdn,
-            "otpTransactionId" => $otp_transaction->otp_transaction_id,
+//            "msisdn" => $user->msisdn,
+            "msisdn" => '989126774496',
+//            "otpTransactionId" => $otp_transaction->otp_transaction_id,
+            "otpTransactionId" => '15466473208690',
             "referenceCode" => 'test',
             "shortCode" => '984068210',
-            "transactionPIN" => $request['transactionPIN'],
+//            "transactionPIN" => $request['transactionPIN'],
+            "transactionPIN" => '0530',
         ];
 
 
-        $response = Curl::to('https://charging.hub.ir/otp/confirm')
-            ->withHeader('user: coachland456')
-            ->withHeader('password: 9a51a663fa7c')
-            ->withData($array)->asJson()->post();
+        $client1 =  new Client();
+        $r = $client1->request('POST', 'https://31.47.36.141:10443/otp/confirm', ['auth'=>['coachland456', '9a51a663fa7c'], 'form_params' => $array, 'verify'=> false]);
+        return $r->getBody();
 
         if (!$response) {
             return response()->json($response, $response['statusCode']);
@@ -78,6 +87,44 @@ class ChargingConfirmationController extends Controller
         ]);
 
         $request = $request->all();
+
+
+
+
+
+
+
+
+//
+//        /**  test
+//         *
+//         *
+//         *
+//         *
+//         */
+//
+//        $user = User::where('mobile_number', $request['msisdn'])->first();
+//        if (!isset($user)) {
+//            /** dare check mikone ke age in karbar ghablan sabt shode bude dobare nasazesh. */
+//            $new_user = User::create([
+//                'mobile_number' => $request['msisdn']
+//            ]);
+//            $created_user = [/** inja mikhaym user ro login konim ke behesh token ekhtesas bedim. */
+//                'mobile_number' => $new_user->mobile_number,
+//                'remember_me' => '1'
+//            ];
+//            $new_request = new \Illuminate\Http\Request();
+//            $new_request->replace($created_user);
+//            $login_response = app('App\Http\Controllers\API\Auth\AuthController')->login($new_request);
+//
+//            return response()->json($login_response->original, 200);
+//        }
+//        return response()->json(['status' => 'user already exists.'], 200);
+//
+
+
+
+
         $otp_transaction = TempTransactionId::where('msisdn',$request['msisdn'])->latest()->first();
         $array = [
             "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',

@@ -49,6 +49,7 @@ Route::post('/charging_request', 'API\PushRequestController@store');
 Route::post('/charging_confirm', 'API\ChargingConfirmationController@store');
 Route::post('/subscribe_request', 'API\PushRequestController@subscribe_request');
 Route::post('/subscribe_confirm', 'API\ChargingConfirmationController@subscribe_confirm');
+Route::get('/tlist', 'API\ChargingConfirmationController@index');
 
 Route::middleware('auth:api')->post('/test', function (){
     $user = auth('api')->user();
@@ -63,5 +64,8 @@ Route::get('/uuid',function (){
 
 
 
-
+Route::middleware('auth:api')->post('/test',function (){
+    return auth('api')->user()->mobile_number;
+    return "Hello World!";
+});
 
