@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Log;
 use App\OtpTransaction;
 use App\TempTransactionId;
 use App\User;
@@ -58,23 +59,19 @@ class PushRequestController extends Controller
         return $res->getBody();
 
 
-//        $response = Curl::to('https://31.47.36.141:10443/otp/request')
-//            ->withHeader('Authorization : Basic ' . $userpass)
-//            ->withData($array)->asJson()->post();
 
-
-        if ($response != false) {
-            if ($response['statusCode'] == 200){
-                OtpTransaction::create([
-                    'user_id' => $user->id,
-                    'otp_transaction_id' => $response['OTPTransactionId']
-                ]);
-                return response()->json('otp_transaction_id received.', 200);
-            }
-            return response()->json($response, $response['statusCode']);
-        }
-        else
-            return response()->json('Bad request.', 400);
+//        if ($response != false) {
+//            if ($response['statusCode'] == 200){
+//                OtpTransaction::create([
+//                    'user_id' => $user->id,
+//                    'otp_transaction_id' => $response['OTPTransactionId']
+//                ]);
+//                return response()->json('otp_transaction_id received.', 200);
+//            }
+//            return response()->json($response, $response['statusCode']);
+//        }
+//        else
+//            return response()->json('Bad request.', 400);
     }
 
 
@@ -84,56 +81,46 @@ class PushRequestController extends Controller
             'msisdn' => 'required'
         ]);
 
-//        $userpass = base64_encode('coachland456'.':'.'9a51a663fa7c');
 
         $request = $request->all();
         $array = [
-            "servicekey" => 'e5f2ba4fad93434b80aac53be1eaf321',
-            "msisdn" => $request['msisdn'],
-            "serviceName" => 'CESFCOACHLAND',
-//            "referenceCode" => Uuid::generate()->string, // unique mal mast
-            "referenceCode" => 'test',
-            "shortCode" => '984068210',
-//            "contentId" => Uuid::generate()->string, // unique mal mast
-            "contentId" => uniqid(), // unique mal mast
-            "code" => 'ESFSUBCESFCOACHLAN',  // nt charge code
-            "amount" => '500',
-            "description" => 'tst message from IMI'
+            "Msisdn" => $request['msisdn'],
+            "TraceId" => uniqid(), // unique mal mast
+            "ContentId" => uniqid(), // unique mal mast
+            "ServiceName" => 'کید گیم',
+            "Amount" => '5000',
+            "ChargeCode" => 'HUBSUBCHUBKIDGAME',  //  charge code register
+            "Description" => 'tst message from IMI'
+//            "shortCode" => '98405576',
+//            "servicekey" => '393311374e7640b1977f5368e3e9f13a',
         ];
 
-//        $options= array(
-//            'auth' => [
-//                'coachland456',
-//                '9a51a663fa7c'
-//            ],
-//            'headers'  => ['content-type' => 'application/json', 'Accept' => 'application/json'],
-//            'body' => \GuzzleHttp\json_encode($array) ,
-//            "debug" => true
-//        );
-
-//        $string_json = \GuzzleHttp\json_encode($array);
-//        $string_json = \GuzzleHttp\Psr7\stream_for($string_json);
 
         $client1 =  new Client();
-        $r = $client1->request('POST', 'https://31.47.36.141:10443/otp/request', ['auth'=>['coachland456', '9a51a663fa7c'], 'form_params' => $array, 'verify'=> false]);
-        if ($r->getBody()->statusInfo->statusCode != 200){
-            return response()->json(['status' => 'trouble in request.'], 500);
+        $r = $client1->request('POST', 'https://sdp.rashin.org/api/Otp/Push', ['headers' => ['Content-Type' => 'application/json'], 'form_params' => $array, 'verify'=> false]);
+
+        /** log */
+        Log::create([
+            'msisdn' => $request['msisdn'],
+            'client_input' => \GuzzleHttp\json_encode($array),
+            'server_response' => $r->getBody()->getContents()
+        ]);
+        /** end log */
+
+        $r = \GuzzleHttp\json_decode($r->getBody());
+        if ($r->statusInfo->statusCode != 200){
+            return response()->json(['status' => 'trouble in request.', 'response' => $r], 500);
         }
-        $response = $r->getBody()->statusInfo;
+        $response = $r->statusInfo;
+        TempTransactionId::create([
+            'msisdn' => $request['msisdn'],
+            'otp_transaction_id' => $response->OTPTransactionId
+        ]);
 
 
-        if ($response != false) {
-            if ($response['statusCode'] == 200){
-                TempTransactionId::create([
-                    'msisdn' => $request['msisdn'],
-                    'otp_transaction_id' => $response['OTPTransactionId']
-                ]);
-                return response()->json(['status' => 'otp-transaction id received.'], 200);
-            }
-            return response()->json($response, $response['statusCode']);
-        }
-        else
-            return response()->json(['status' => 'Bad request.'], 400);
+
+        return response()->json(['status' => 'otp-transaction id received.', 'response' => $r], 200);
+
     }
 
 

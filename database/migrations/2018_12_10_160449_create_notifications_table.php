@@ -15,20 +15,21 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('sid');
-            $table->string('msisdn');
-            $table->string('trans-id');
-            $table->string('trans-status');
-            $table->string('datetime');
-            $table->string('channel');
-            $table->string('shortcode');
-            $table->string('keyword');
-            $table->string('charge-code');
-            $table->string('billed-price-point');
-            $table->string('event-type');
-            $table->string('validity');
-            $table->string('next_renewal_date');
-            $table->string('status');
+            $table->string('Sid')->nullable();
+            $table->string('Msisdn')->nullable();
+            $table->string('TransId')->nullable();
+            $table->string('Channel')->nullable();
+            $table->string('ShortCode')->nullable();
+            $table->string('KeyWord')->nullable();
+            $table->string('TransStatus')->nullable();
+            $table->string('DateTime')->nullable();
+            $table->string('ChargeCode')->nullable();
+            $table->string('BasePricePoint')->nullable();
+            $table->string('BilledPricePoint')->nullable();
+            $table->string('EventType')->nullable();
+            $table->string('Status')->nullable();
+            $table->string('Validity')->nullable();
+            $table->string('NextRenewalDate')->nullable();
             $table->timestamps();
         });
     }

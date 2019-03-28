@@ -27,46 +27,25 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        $request = $request->all();
+        Notification::create($request);
 
-        $notification = Notification::create($request);
-        if ($request['event-type'] == 1.1){     /** yani karbar subscribe shode */
-            $user = User::where('mobile_number', $request['msisdn'])->first();
+        if ($request['EventType'] == 1.1){     /** yani karbar subscribe shode */
+            $user = User::where('mobile_number', $request['Msisdn'])->first();
             if (!isset($user)){     /** dare check mikone ke age in karbar ghablan sabt shode bude dobare nasazesh. */
                 User::create([
-                    'mobile_number' => $request['msisdn']
+                    'mobile_number' => $request['Msisdn']
                 ]);
             }
         }
-        if ($request['event-type'] == 1.2){     /** yani karbar un-subscribe shode */
-            $user = User::where('mobile_number', $request['msisdn'])->first();
+        if ($request['EventType'] == 1.2){     /** yani karbar un-subscribe shode */
+            $user = User::where('mobile_number', $request['Msisdn'])->first();
             if (isset($user)){     /** dare check mikone ke age in karbar vojud dare pakesh kone. */
                 $user->delete();
             }
         }
-        return response()->json($notification, 200);
+        return response()->json(['status' => 'notification received.'], 200);
 
-        /**
-        if request array changed, we can use this array
-         *
-            $array = [
-            "sid" => $request['sid'],
-            "msisdn" => $request['msisdn'],
-            "trans-id" => $request['trans-id'],
-            "trans-status" => $request['trans-status'],
-            "datetime" => $request['datetime'],
-            "channel" => $request['channel'],
-            "shortcode" => $request['shortcode'],
-            "keyword" => $request['keyword'],
-            "charge-code" => $request['charge-code'],
-            "billed-price-point" => $request['billed-price-point'],
-            "event-type" => $request['event-type'],
-            "validity" => $request['validity'],
-            "next_renewal_date" => $request['next_renewal_date'],
-            "status" => $request['status'],
-            ];
-         *
-         */
+
 
     }
 
