@@ -97,7 +97,8 @@ class PushRequestController extends Controller
 
 
         $client1 =  new Client();
-        $r = $client1->request('POST', 'https://sdp.rashin.org/api/Otp/Push', ['headers' => ['Content-Type' => 'application/json'], 'form_params' => $array, 'verify'=> false]);
+        $r = $client1->request('POST', 'https://sdp.rashin.org/api/Otp/Push', ['headers' => ['Content-Type' => 'application/json', 'apikey' => '5E6FA16F-9AC6-4F70-98CA-24092D3B1030'], 'form_params' => $array, 'verify'=> false]);
+        return response()->json(['status' => 'otp-transaction id received.', 'response' => $r], 200);
 
         /** log */
         Log::create([
