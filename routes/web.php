@@ -14,4 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/hi','TestController@test');
+
+Route::get('/hi', function () {
+    return "hi";
+});
