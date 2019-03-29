@@ -77,7 +77,6 @@ class PushRequestController extends Controller
 
     public function subscribe_request(Request $request)
     {
-        return "k";
 //        $request->validate([
 //            'msisdn' => 'required'
 //        ]);
