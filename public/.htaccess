@@ -3,27 +3,13 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    RewriteEngine On
-
-    # Handle Authorization Header
+    RewriteEngine on
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-
 
     RewriteCond %{HTTP_HOST} ^kid-game.ir$ [NC,OR]
     RewriteCond %{HTTP_HOST} ^www.kidgame.ir$
     RewriteCond %{REQUEST_URI} !public/
     RewriteRule ^(.*) /public/$1 [L]
-
-    # Handle Front Controller...
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^ index.php [L]
 
 </IfModule>
