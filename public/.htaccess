@@ -8,7 +8,7 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     RewriteCond %{HTTP_HOST} ^kid-game.ir$ [NC,OR]
-    RewriteCond %{HTTP_HOST} ^www.kidgame.ir$
+    RewriteCond %{HTTP_HOST} ^www.kid-game.ir$
     RewriteCond %{REQUEST_URI} !public/
     RewriteRule ^(.*) /public/$1 [L]
 
