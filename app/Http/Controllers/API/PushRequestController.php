@@ -77,14 +77,14 @@ class PushRequestController extends Controller
 
     public function subscribe_request(Request $request)
     {
-        $request->validate([
-            'msisdn' => 'required'
-        ]);
-
-
-        $request = $request->all();
+//        $request->validate([
+//            'msisdn' => 'required'
+//        ]);
+//
+//
+//        $request = $request->all();
         $array = [
-            "Msisdn" => $request['msisdn'],
+            "Msisdn" => '989126774496',
             "TraceId" => uniqid(), // unique mal mast
             "ContentId" => uniqid(), // unique mal mast
             "ServiceName" => 'کید گیم',
