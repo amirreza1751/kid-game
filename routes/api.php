@@ -52,11 +52,11 @@ Route::get('/subscribe_request', 'API\PushRequestController@subscribe_request');
 Route::post('/subscribe_confirm', 'API\ChargingConfirmationController@subscribe_confirm');
 Route::get('/tlist', 'API\ChargingConfirmationController@index');
 
-Route::middleware('auth:api')->post('/test', function (){
-    $user = auth('api')->user();
-//    $temp = OtpTransaction::where('user_id',$user->id)->latest()->first();
-    return response()->json($user->mobile_number, 200);
-});
+//Route::middleware('auth:api')->post('/test', function (){
+//    $user = auth('api')->user();
+////    $temp = OtpTransaction::where('user_id',$user->id)->latest()->first();
+//    return response()->json($user->mobile_number, 200);
+//});
 
 Route::get('/uuid','PusRequestController@subscribe_controller');
 
