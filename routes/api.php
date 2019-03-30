@@ -67,9 +67,11 @@ Route::get('/uuid','PusRequestController@subscribe_controller');
 
 Route::get('/test',function (){
     $client1 =  new Client();
-$r = $client1->request('GET', 'http://uinames.com/api/');
-$r = \GuzzleHttp\json_decode($r->getBody());
-return $r->name;
+//$r = $client1->request('GET', 'http://uinames.com/api/');
+$r = $client1->request('GET', 'https://github.com/amirreza1751');
+//$r = \GuzzleHttp\json_decode($r->getBody());
+//return $r->name;
+return $r->getBody();
 
 });
 
