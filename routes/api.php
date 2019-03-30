@@ -69,6 +69,7 @@ Route::get('/test',function (){
     $client1 =  new Client();
 //$r = $client1->request('GET', 'http://uinames.com/api/');
 $r = $client1->request('GET', 'https://google.com');
+return $r;
 $r = \GuzzleHttp\json_decode($r->getBody());
 return $r->name;
 });
