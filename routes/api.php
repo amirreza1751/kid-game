@@ -70,6 +70,7 @@ Route::get('/test',function (){
 $r = $client1->request('GET', 'http://uinames.com/api/');
 $r = \GuzzleHttp\json_decode($r->getBody());
 return $r->name;
+
 });
 
 Route::get('/check',function (){
