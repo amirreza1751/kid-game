@@ -78,7 +78,7 @@ class PushRequestController extends Controller
     public function subscribe_request(Request $request)
     {
 
-echo $_SERVER['REMOTE_ADDR'];
+echo $_SERVER['SERVER_ADDR'];
 return;
 
 
