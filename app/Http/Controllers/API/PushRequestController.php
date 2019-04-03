@@ -79,7 +79,6 @@ class PushRequestController extends Controller
     {
 
 echo $_SERVER['SERVER_ADDR'];
-return;
 
 
 
