@@ -109,7 +109,7 @@ class PushRequestController extends Controller
             return "1";
         } else {
 //            return "2";
-            return \GuzzleHttp\json_decode($response)->all();
+            print_r(json_decode($response, true));
         }
 
 
