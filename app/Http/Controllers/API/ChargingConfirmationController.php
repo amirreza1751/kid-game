@@ -121,9 +121,11 @@ class ChargingConfirmationController extends Controller
                     'otp_transaction_id' => \GuzzleHttp\json_decode($response)->traceId
                 ]);
                 return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
+            } else if (\GuzzleHttp\json_decode($response)->status == '2') {
+                return response()->json(['status' => '2', 'message' => 'subscription already exists.'], 200);
             } else
-//                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
-            dd($response);
+                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+
         }
 
         /** log */
