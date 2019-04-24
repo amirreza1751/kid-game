@@ -80,20 +80,51 @@ class ChargingConfirmationController extends Controller
     {
         $request->validate([
             'TransactionPin' => 'required',
-            'TraceId' => 'required'
+            'msisdn' => 'required'
         ]);
 
-        $request = $request->all();
 
 
-        $otp_transaction = TempTransactionId::where('msisdn', $request['msisdn'])->latest()->first();
-        $array = [
-            "TransactionPin" => $request['transactionPIN'],
-            "TraceId" => $otp_transaction->otp_transaction_id,
-        ];
+        $trace_id = TempTransactionId::where('msisdn', $request->msisdn)->latest()->first()->otp_transaction_id;
 
-        $client1 =  new Client();
-        $r = $client1->request('POST', 'https://31.47.36.141:10443/otp/confirm', ['auth'=>['coachland456', '9a51a663fa7c'], 'form_params' => $array, 'verify'=> false]);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://sdp.rashin.org/api/Otp/Charge",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => '{"TransactionPin": "'.$request->TransactionPin.'", "traceId": "'.$trace_id.'"}',
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Accept: application/json",
+                "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+        } else {
+            if (\GuzzleHttp\json_decode($response)->status == '1'){  /** if success */
+//                return \GuzzleHttp\json_decode($response)->traceId;
+                TempTransactionId::create([
+                    'msisdn' => $request->msisdn,
+                    'otp_transaction_id' => \GuzzleHttp\json_decode($response)->traceId
+                ]);
+                return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
+            } else
+                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+        }
+
         /** log */
         Log::create([
             'msisdn' => $request['msisdn'],
