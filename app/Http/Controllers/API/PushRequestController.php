@@ -77,6 +77,10 @@ class PushRequestController extends Controller
 
     public function subscribe_request(Request $request)
     {
+        $request->validate([
+            'msisdn' => 'required|regex:/(98)[0-9]{12}/'
+        ]);
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -87,7 +91,7 @@ class PushRequestController extends Controller
             CURLOPT_TIMEOUT => 15,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => '{"msisdn": "989126774496", "traceId": "'.mt_rand(1000000000000,9999999999999).'", "contentId": "'.mt_rand(1000000000000,9999999999999).'", "serviceName": "کید گیم","amount": 5000, "chargeCode": "HUBSUBCHUBKIDGAME", "description": "test"}',
+            CURLOPT_POSTFIELDS => '{"msisdn": "'.$request['msisdn'].'", "traceId": "'.mt_rand(1000000000000,9999999999999).'", "contentId": "'.mt_rand(1000000000000,9999999999999).'", "serviceName": "کید گیم","amount": 5000, "chargeCode": "HUBSUBCHUBKIDGAME", "description": "test"}',
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
                 "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
@@ -100,13 +104,10 @@ class PushRequestController extends Controller
         curl_close($curl);
 
         if ($err) {
-            echo "cURL Error #:" . $err;
+            return "cURL Error #:" . $err;
         } else {
-            echo \GuzzleHttp\json_decode($response);
+            return \GuzzleHttp\json_decode($response);
         }
-echo "test";
-
-return;
 
 
 
@@ -116,9 +117,9 @@ return;
 
 
 
-//        $request->validate([
-//            'msisdn' => 'required'
-//        ]);
+
+
+
 //
 //
 //        $request = $request->all();
