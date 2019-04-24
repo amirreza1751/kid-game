@@ -109,7 +109,7 @@ class PushRequestController extends Controller
             return "1";
         } else {
             return "2";
-            print_r(json_decode($response, true));
+            dd($response);
         }
 
 
