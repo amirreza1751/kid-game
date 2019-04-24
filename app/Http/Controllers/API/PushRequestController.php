@@ -108,7 +108,7 @@ class PushRequestController extends Controller
 //            return response()->json($err, 400) ;
             return "1";
         } else {
-            return "2";
+            
             dd($response);
         }
 
