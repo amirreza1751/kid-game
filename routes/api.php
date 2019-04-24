@@ -58,7 +58,10 @@ Route::get('/tlist', 'API\ChargingConfirmationController@index');
 //    return response()->json($user->mobile_number, 200);
 //});
 
-Route::get('/uuid','PusRequestController@subscribe_controller');
+//Route::get('/uuid','PusRequestController@subscribe_controller');
+Route::get('/uuid', function (){
+    return uniqid();
+});
 
 
 
