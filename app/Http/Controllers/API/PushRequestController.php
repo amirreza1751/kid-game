@@ -78,7 +78,7 @@ class PushRequestController extends Controller
     public function subscribe_request(Request $request)
     {
         $request->validate([
-            'msisdn' => 'required'
+            'msisdn' => 'required|regex:/(98)[0-9]{12}/'
         ]);
 
         $curl = curl_init();
@@ -91,7 +91,7 @@ class PushRequestController extends Controller
             CURLOPT_TIMEOUT => 15,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => '{"msisdn": "'.$request['msisdn'].'", "traceId": "'.mt_rand(1000000000000,9999999999999).'", "contentId": "'.mt_rand(1000000000000,9999999999999).'", "serviceName": "کید گیم","amount": 5000, "chargeCode": "HUBSUBCHUBKIDGAME", "description": "test"}',
+            CURLOPT_POSTFIELDS => '{"msisdn": "'.$request->msisdn.'", "traceId": "'.mt_rand(1000000000000,9999999999999).'", "contentId": "'.mt_rand(1000000000000,9999999999999).'", "serviceName": "کید گیم","amount": 5000, "chargeCode": "HUBSUBCHUBKIDGAME", "description": "test"}',
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
                 "Accept: application/json",
