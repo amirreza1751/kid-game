@@ -113,6 +113,7 @@ class PushRequestController extends Controller
                     'msisdn' => $request->msisdn,
                     'otp_transaction_id' => \GuzzleHttp\json_decode($response)->traceId
                 ]);
+                return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
             } else
                 return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         }
