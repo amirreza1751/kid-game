@@ -107,8 +107,12 @@ class PushRequestController extends Controller
         if ($err) {
             return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         } else {
-            if (\GuzzleHttp\json_decode($response)->status == '1'){
-                return \GuzzleHttp\json_decode($response)->traceId;
+            if (\GuzzleHttp\json_decode($response)->status == '1'){  /** if success */
+//                return \GuzzleHttp\json_decode($response)->traceId;
+                TempTransactionId::create([
+                    'msisdn' => $request->msisdn,
+                    'otp_transaction_id' => \GuzzleHttp\json_decode($response)->traceId
+                ]);
             } else
                 return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         }
