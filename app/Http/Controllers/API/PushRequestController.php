@@ -104,7 +104,7 @@ class PushRequestController extends Controller
         } else {
             echo $response;
         }
-
+echo "test";
 
 return;
 
