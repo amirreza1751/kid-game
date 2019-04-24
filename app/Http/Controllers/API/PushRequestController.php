@@ -102,7 +102,7 @@ class PushRequestController extends Controller
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            echo $response['message'];
+            echo \GuzzleHttp\json_decode($response)->message;
         }
 echo "test";
 
