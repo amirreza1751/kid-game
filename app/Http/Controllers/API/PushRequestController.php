@@ -145,7 +145,7 @@ class PushRequestController extends Controller
                     'apikey' => '5E6FA16F-9AC6-4F70-98CA-24092D3B1030'
                 ],
                 'form_params' => $array,
-                'verify' => false
+//                'verify' => false
             ]
         );
         return response()->json(['status' => 'otp-transaction id received.', 'response' => $r], 200);
