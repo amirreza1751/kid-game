@@ -105,9 +105,9 @@ class PushRequestController extends Controller
         curl_close($curl);
 
         if ($err) {
-            dd ("cURL Error #:" . $err);
+            return "cURL Error #:" . $err;
         } else {
-            dd( \GuzzleHttp\json_decode($response));
+            return \GuzzleHttp\json_decode($response);
         }
 
 
