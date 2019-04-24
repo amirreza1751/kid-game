@@ -77,36 +77,36 @@ class PushRequestController extends Controller
 
     public function subscribe_request(Request $request)
     {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://sdp.rashin.org/api/Otp/Push",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 15,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n    \"msisdn\": \"989126774496\",\n    \"traceId\": 0,\n    \"contentId\": \"string\",\n    \"serviceName\": \"string\",\n    \"amount\": 0,\n    \"chargeCode\": \"string\",\n    \"description\": \"string\"\n}",
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            echo $response;
-        }
-
-
-return;
+//        $curl = curl_init();
+//
+//        curl_setopt_array($curl, array(
+//            CURLOPT_URL => "https://sdp.rashin.org/api/Otp/Push",
+//            CURLOPT_RETURNTRANSFER => true,
+//            CURLOPT_ENCODING => "",
+//            CURLOPT_MAXREDIRS => 10,
+//            CURLOPT_TIMEOUT => 15,
+//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//            CURLOPT_CUSTOMREQUEST => "POST",
+//            CURLOPT_POSTFIELDS => "{\n    \"msisdn\": \"989126774496\",\n    \"traceId\": 0,\n    \"contentId\": \"string\",\n    \"serviceName\": \"string\",\n    \"amount\": 0,\n    \"chargeCode\": \"string\",\n    \"description\": \"string\"\n}",
+//            CURLOPT_HTTPHEADER => array(
+//                "Content-Type: application/json",
+//                "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
+//            ),
+//        ));
+//
+//        $response = curl_exec($curl);
+//        $err = curl_error($curl);
+//
+//        curl_close($curl);
+//
+//        if ($err) {
+//            echo "cURL Error #:" . $err;
+//        } else {
+//            echo $response;
+//        }
+//
+//
+//return;
 
 
 
@@ -123,13 +123,13 @@ return;
 //
 //        $request = $request->all();
         $array = [
-            "Msisdn" => '989126774496',
-            "TraceId" => uniqid(), // unique mal mast
-            "ContentId" => uniqid(), // unique mal mast
-            "ServiceName" => 'کید گیم',
-            "Amount" => '5000',
-            "ChargeCode" => 'HUBSUBCHUBKIDGAME',  //  charge code register
-            "Description" => 'tst message from IMI'
+            "msisdn" => '989126774496',
+            "traceId" => uniqid(), // unique mal mast
+            "contentId" => uniqid(), // unique mal mast
+            "serviceName" => 'کید گیم',
+            "amount" => '5000',
+            "chargeCode" => 'HUBSUBCHUBKIDGAME',  //  charge code register
+            "description" => 'tst message from IMI'
 //            "shortCode" => '98405576',
 //            "servicekey" => '393311374e7640b1977f5368e3e9f13a',
         ];
