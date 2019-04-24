@@ -124,8 +124,10 @@ class PushRequestController extends Controller
 //        $request = $request->all();
         $array = [
             "msisdn" => '989126774496',
-            "traceId" => uniqid(), // unique mal mast
-            "contentId" => uniqid(), // unique mal mast
+//            "traceId" => uniqid(), // unique mal mast
+            "traceId" => '', // unique mal mast
+//            "contentId" => uniqid(), // unique mal mast
+            "contentId" => '', // unique mal mast
             "serviceName" => 'کید گیم',
             "amount" => '5000',
             "chargeCode" => 'HUBSUBCHUBKIDGAME',  //  charge code register
@@ -138,7 +140,7 @@ class PushRequestController extends Controller
         $client1 =  new Client();
         $r = $client1->request(
             'POST',
-            'https://sdp.rashin.org/api/Otp/Push',
+            'http://sdp.rashin.org/api/Otp/Push',
             [
                 'headers' => [
                     'Content-Type' => 'application/json',
