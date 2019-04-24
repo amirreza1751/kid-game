@@ -137,7 +137,7 @@ class PushRequestController extends Controller
         ];
 
 
-
+$array = \GuzzleHttp\json_encode($array);
 
         $client1 =  new Client();
         $r = $client1->request(
@@ -148,7 +148,7 @@ class PushRequestController extends Controller
                     'Content-Type' => 'application/json',
                     'apikey' => '5E6FA16F-9AC6-4F70-98CA-24092D3B1030'
                 ],
-                'form_params' => \GuzzleHttp\json_encode($array),
+                'form_params' => $array,
                 'verify' => false
             ]
         );
