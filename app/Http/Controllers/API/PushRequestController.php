@@ -94,6 +94,7 @@ class PushRequestController extends Controller
             CURLOPT_POSTFIELDS => '{"msisdn": "'.$request['msisdn'].'", "traceId": "'.mt_rand(1000000000000,9999999999999).'", "contentId": "'.mt_rand(1000000000000,9999999999999).'", "serviceName": "کید گیم","amount": 5000, "chargeCode": "HUBSUBCHUBKIDGAME", "description": "test"}',
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json",
+                "Accept: application/json",
                 "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
             ),
         ));
