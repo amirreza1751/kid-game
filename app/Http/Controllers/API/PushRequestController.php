@@ -105,11 +105,12 @@ class PushRequestController extends Controller
         curl_close($curl);
 
         if ($err) {
-//            return response()->json($err, 400) ;
-            return "1";
+            return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         } else {
-            
-            dd($response);
+            if (\GuzzleHttp\json_encode($response)->status == '1'){
+                return \GuzzleHttp\json_encode($response)->traceId;
+            } else
+                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         }
 
 
