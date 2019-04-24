@@ -107,8 +107,8 @@ class PushRequestController extends Controller
         if ($err) {
             return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         } else {
-            if (\GuzzleHttp\json_encode($response)->status == '1'){
-                return \GuzzleHttp\json_encode($response)->traceId;
+            if (\GuzzleHttp\json_encode($response)['status'] == '1'){
+                return \GuzzleHttp\json_encode($response)['traceId'];
             } else
                 return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
         }
