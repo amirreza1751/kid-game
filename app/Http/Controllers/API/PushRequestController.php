@@ -105,8 +105,10 @@ class PushRequestController extends Controller
         curl_close($curl);
 
         if ($err) {
-            return response()->json($err, 400) ;
+//            return response()->json($err, 400) ;
+            return "1";
         } else {
+            return "2";
             return \GuzzleHttp\json_decode($response);
         }
 
