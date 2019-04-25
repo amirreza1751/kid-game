@@ -67,7 +67,7 @@ class AuthController extends Controller
 //            ], 401);
 //        $user = User::where('mobile_number', $request->mobile_number)->first();
 
-        $user = User::where('phone_number', $request->mobile_number)->first();
+        $user = User::where('mobile_number', $request->mobile_number)->first();
 
         if($user == null)
             return response()->json([
