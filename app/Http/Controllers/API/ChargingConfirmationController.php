@@ -78,6 +78,7 @@ class ChargingConfirmationController extends Controller
                 'server_response' => $response
             ]);
             /** end log */
+            dd($response);
 
             if (\GuzzleHttp\json_decode($response)->status == '1'){  /** if success */
                 $user = User::where('mobile_number', $request->msisdn)->first();
