@@ -87,7 +87,7 @@ class ChargingConfirmationController extends Controller
                     ];
                     $new_request = new \Illuminate\Http\Request();
                     $new_request->replace($user_to_create);
-                    $signup_response = app('App\Http\Controllers\AuthController')->signup($new_request);
+                    $signup_response = app('App\Http\Controllers\API\Auth\AuthController')->signup($new_request);
                     return $signup_response;
                 }
                 return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
