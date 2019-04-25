@@ -89,8 +89,16 @@ class ChargingConfirmationController extends Controller
                     $new_request->replace($user_to_create);
                     $signup_response = app('App\Http\Controllers\API\Auth\AuthController')->signup($new_request);
                     return $signup_response;
+                } else { /** user subscribe shode vali tu db e ma bude. pas bayad login beshe faghat */
+                    $created_user = [
+                        'mobile_number' => $user->mobile_number,
+                        'remember_me' => '1'
+                    ];
+                    $new_request = new \Illuminate\Http\Request();
+                    $new_request->replace($created_user);
+                    $login_response = app('App\Http\Controllers\API\Auth\AuthController')->login($new_request);
+                    return $login_response;
                 }
-                return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
             } else if (\GuzzleHttp\json_decode($response)->status == '2') {
                 $user = User::where('mobile_number', $request->msisdn)->first();
                 if ($user != null){ /** user subscribe bude az ghabl va tu db ham hast. pas bayad login beshe. */
@@ -102,8 +110,15 @@ class ChargingConfirmationController extends Controller
                     $new_request->replace($created_user);
                     $login_response = app('App\Http\Controllers\API\Auth\AuthController')->login($new_request);
                     return $login_response;
+                } else { /** user subscribe bude az ghabl ama tu db nist. pas bayad sign up beshe */
+                    $user_to_create = [
+                        'mobile_number' => $request->msisdn,
+                    ];
+                    $new_request = new \Illuminate\Http\Request();
+                    $new_request->replace($user_to_create);
+                    $signup_response = app('App\Http\Controllers\API\Auth\AuthController')->signup($new_request);
+                    return $signup_response;
                 }
-                return response()->json(['status' => '2', 'message' => 'subscription already exists.'], 200);
             } else
                 return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
 

@@ -61,11 +61,18 @@ class AuthController extends Controller
             'mobile_number' => 'required|string',
             'remember_me' => 'boolean'
         ]);
-        if(!Auth::attempt(['mobile_number' => $request->mobile_number]))
+//        if(!Auth::attempt(['mobile_number' => $request->mobile_number]))
+//            return response()->json([
+//                'message' => 'Unauthorized'
+//            ], 401);
+//        $user = User::where('mobile_number', $request->mobile_number)->first();
+
+        $user = User::where('phone_number', $request->mobile_number)->first();
+
+        if($user == null)
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
-        $user = User::where('mobile_number', $request->mobile_number)->first();
 
         /** inja miad token haye ghabliye in karbar ro age vojud dasht revoke mikone */
         $existing_token = OauthAccessTokens::where('user_id', $user->id)->where('revoked', '0')->get();
