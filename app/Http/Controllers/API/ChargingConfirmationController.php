@@ -100,7 +100,7 @@ class ChargingConfirmationController extends Controller
                     $login_response = app('App\Http\Controllers\API\Auth\AuthController')->login($new_request);
                     return $login_response;
                 }
-            } else if (\GuzzleHttp\json_decode($response)->status == '2') {
+            } else if (\GuzzleHttp\json_decode($response)->status == '2' && \GuzzleHttp\json_decode($response)->message == 'Service Error(Subscription already exists.)') {
                 $user = User::where('mobile_number', $request->msisdn)->first();
                 if ($user != null){ /** user subscribe bude az ghabl va tu db ham hast. pas bayad login beshe. */
                     $created_user = [
@@ -121,7 +121,7 @@ class ChargingConfirmationController extends Controller
                     return $signup_response;
                 }
             } else
-                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+                return response()->json(['status'=> '-1','message'=> 'otp code is incorrect'], 400) ;
 
         }
 
