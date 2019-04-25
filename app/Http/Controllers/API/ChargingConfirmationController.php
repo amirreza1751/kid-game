@@ -45,6 +45,7 @@ class ChargingConfirmationController extends Controller
         if ($trace_id == null){
             return response()->json(['status'=> '111','message'=> 'phone number is incorrect.'], 400);
         }
+        $trace_id = $trace_id->otp_transaction_id;
 
 
         $curl = curl_init();
