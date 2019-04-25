@@ -26,11 +26,9 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
             'mobile_number' => 'required|unique:users',
         ]);
         $user = new User([
-            'name' => $request->name,
             'mobile_number' => $request->mobile_number,
         ]);
         $user->save();
