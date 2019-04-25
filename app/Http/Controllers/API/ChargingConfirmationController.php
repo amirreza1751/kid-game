@@ -41,7 +41,10 @@ class ChargingConfirmationController extends Controller
             'msisdn' => 'required'
         ]);
 
-        $trace_id = TempTransactionId::where('msisdn', $request->msisdn)->latest()->first()->otp_transaction_id;
+        $trace_id = TempTransactionId::where('msisdn', $request->msisdn)->latest()->first();
+        if ($trace_id == null){
+            return response()->json(['status'=> '111','message'=> 'phone number is incorrect.'], 400);
+        }
 
 
         $curl = curl_init();
@@ -68,7 +71,7 @@ class ChargingConfirmationController extends Controller
         curl_close($curl);
 
         if ($err) {
-            return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+            return response()->json(['status'=> '112','message'=> 'trouble in request.'], 400) ;
         } else {
 
             /** log */
@@ -120,7 +123,7 @@ class ChargingConfirmationController extends Controller
                     return $signup_response;
                 }
             } else
-                return response()->json(['status'=> '-1','message'=> 'otp code is incorrect'], 400) ;
+                return response()->json(['status'=> '113','message'=> 'otp code is incorrect'], 400) ;
 
         }
 

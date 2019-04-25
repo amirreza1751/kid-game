@@ -89,6 +89,7 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(300);
         $token->save();
         return response()->json([
+            'status' => '114',
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
