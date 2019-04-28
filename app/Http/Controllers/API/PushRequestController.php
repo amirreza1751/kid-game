@@ -78,7 +78,7 @@ class PushRequestController extends Controller
     public function subscribe_request(Request $request)
     {
         $request->validate([
-            'msisdn' => 'required'
+            'msisdn' => 'required|regex:/^((98)[0-9\s\-\+\(\)]*)$/|min:12'
         ]);
 
         $curl = curl_init();
