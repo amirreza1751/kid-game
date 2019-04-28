@@ -30,7 +30,7 @@ class NotificationController extends Controller
         Notification::create($request);
 
         if ($request['EventType'] == 1.1){     /** yani karbar subscribe shode */
-            $user = User::where('mobile_number', $request['Msisdn'])->first();
+            $user = User::wheremid('mobile_number', $request['Msisdn'])->first();
             if (!isset($user)){     /** dare check mikone ke age in karbar ghablan sabt shode bude dobare nasazesh. */
                 User::create([
                     'mobile_number' => $request['Msisdn']

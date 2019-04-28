@@ -87,3 +87,35 @@ Route::get('/check',function (){
         return response()->json(['status'=>'1', 'description'=> 'user is subscribed.'], 200);
 });
 
+
+Route::get('/getnotification', function(){
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://sdp.rashin.org/Test/Notification",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "",
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json",
+            "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
+            "cache-control: no-cache"
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+        echo $response;
+    }
+});
+
