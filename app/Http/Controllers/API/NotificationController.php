@@ -28,11 +28,11 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        Log::create([
-            'msisdn' => 'test',
-            'client_input' => 'test',
-            'server_response' => $request->all()
-        ]);
+//        Log::create([
+//            'msisdn' => 'test',
+//            'client_input' => 'test',
+//            'server_response' => $request->all()
+//        ]);
 
         Notification::create($request);
 
