@@ -115,7 +115,7 @@ class PushRequestController extends Controller
                 ]);
                 return response()->json(['status'=> '1','message'=> 'successful'], 200) ;
             } else
-                return response()->json(['status'=> '0','message'=> 'trouble in request.'], 400) ;
+                return response()->json(['status'=> '0  ','message'=> 'trouble in request.'], 400) ;
         }
 
 

@@ -92,7 +92,7 @@ Route::get('/getnotification', function(){
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://sdp.rashin.org/Test/Notification",
+        CURLOPT_URL => "https://sdp.rashin.org/api/Test/Notification",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,

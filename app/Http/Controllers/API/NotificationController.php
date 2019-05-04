@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Log;
 use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
@@ -27,6 +28,12 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
+        Log::create([
+            'msisdn' => 'test',
+            'client_input' => 'test',
+            'server_response' => $request->all()
+        ]);
+
         Notification::create($request);
 
         if ($request['EventType'] == 1.1){     /** yani karbar subscribe shode */
