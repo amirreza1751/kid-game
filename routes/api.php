@@ -115,7 +115,7 @@ Route::get('/getnotification', function(){
     if ($err) {
         echo "cURL Error #:" . $err;
     } else {
-        echo $response;
+        return \GuzzleHttp\json_encode($response);
     }
 });
 
