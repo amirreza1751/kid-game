@@ -34,7 +34,7 @@ class NotificationController extends Controller
 //            'server_response' => $request->all()
 //        ]);
 
-        Notification::create($request);
+        Notification::create($request->all());
 
         if ($request['EventType'] == 1.1){     /** yani karbar subscribe shode */
             $user = User::wheremid('mobile_number', $request['Msisdn'])->first();
