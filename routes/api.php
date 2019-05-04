@@ -102,6 +102,7 @@ Route::get('/getnotification', function(){
         CURLOPT_POSTFIELDS => "",
         CURLOPT_HTTPHEADER => array(
             "Content-Type: application/json",
+            "Accept: application/json",
             "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
             "cache-control: no-cache"
         ),
