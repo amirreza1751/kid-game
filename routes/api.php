@@ -81,10 +81,10 @@ return $r->getBody();
 Route::get('/check',function (){
     $check_user = auth('api')->user();
     if (!isset($check_user)){
-        return response()->json(['status'=>'0', 'description'=> 'mano bega.', 'imageUrl'=> 'https://test-ipv6.com/images/hires_ok.png','updateUrl'=>'update-url', 'appVersion'=> '3.1' ], 200);
+        return response()->json(['status'=>'0', 'description'=> 'mano bega.', 'imageUrl'=> 'https://test-ipv6.com/images/hires_ok.png','updateUrl'=>'http://' . $_SERVER['HTTP_HOST'].'/client_archive/kidGame.apk', 'appVersion'=> '3.1' ], 200);
     }
     else
-        return response()->json(['status'=>'1', 'description'=> 'mano bega.', 'imageUrl'=> 'https://test-ipv6.com/images/hires_ok.png','updateUrl'=>'update-url', 'appVersion'=> '3.1'], 200);
+        return response()->json(['status'=>'1', 'description'=> 'mano bega.', 'imageUrl'=> 'https://test-ipv6.com/images/hires_ok.png','updateUrl'=>'http://' . $_SERVER['HTTP_HOST'].'/client_archive/kidGame.apk', 'appVersion'=> '3.1'], 200);
 });
 
 
