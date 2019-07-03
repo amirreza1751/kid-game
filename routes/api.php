@@ -132,7 +132,7 @@ Route::get('/sms', function(){
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => '{"msisdn": "989126774496", "traceId": "'.mt_rand(1000000000000,9999999999999).'"}',
+        CURLOPT_POSTFIELDS => '{"Msisdn": "989126774496", "TraceId": "'.mt_rand(1000000000000,9999999999999).'", "Message" : "تست" }',
         CURLOPT_HTTPHEADER => array(
             "Content-Type: application/json",
             "Accept: application/json",
