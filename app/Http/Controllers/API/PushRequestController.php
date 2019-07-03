@@ -81,7 +81,7 @@ class PushRequestController extends Controller
             'msisdn' => 'required|regex:/^((98)[0-9\s\-\+\(\)]*)$/|min:12'
         ]);
 
-        $curl = curl_init();
+        $curl = curlx_init();
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://sdp.rashin.org/api/Otp/Push",

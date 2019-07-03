@@ -120,3 +120,35 @@ Route::get('/getnotification', function(){
     }
 });
 
+
+Route::get('/sms', function(){
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://sdp.rashin.org/api/sms/send",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => '{"msisdn": "989126774496", "traceId": "'.mt_rand(1000000000000,9999999999999).'"}',
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json",
+            "Accept: application/json",
+            "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
+            "cache-control: no-cache"
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+        return \GuzzleHttp\json_encode($response);
+    }
+});
