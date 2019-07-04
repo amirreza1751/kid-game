@@ -149,6 +149,7 @@ Route::get('/sms', function(){
     if ($err) {
         echo "cURL Error #:" . $err;
     } else {
-        return \GuzzleHttp\json_encode($response);
+//        return \GuzzleHttp\json_encode($response);
+        return $response;
     }
 });
