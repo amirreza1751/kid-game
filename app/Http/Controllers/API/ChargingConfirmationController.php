@@ -84,6 +84,7 @@ class ChargingConfirmationController extends Controller
             /** end log */
 
             if (\GuzzleHttp\json_decode($response)->status == '1'){  /** if success */
+                $this->send_sms($request->msisdn, 'به سرویس کیدگیم خوش آمدید.');
                 $user = User::where('mobile_number', $request->msisdn)->first();
                 if ($user == null){  /** user subscribe shode va tu db ham nist. pas bayad sign up beshe */
                     $user_to_create = [
@@ -104,6 +105,7 @@ class ChargingConfirmationController extends Controller
                     return $login_response;
                 }
             } else if (\GuzzleHttp\json_decode($response)->status == '2' && \GuzzleHttp\json_decode($response)->message == 'Service Error(Subscription already exists.)') {
+                $this->send_sms($request->msisdn, 'به سرویس کیدگیم خوش آمدید.');
                 $user = User::where('mobile_number', $request->msisdn)->first();
                 if ($user != null){ /** user subscribe bude az ghabl va tu db ham hast. pas bayad login beshe. */
                     $created_user = [
@@ -131,6 +133,47 @@ class ChargingConfirmationController extends Controller
 
     }
 
+
+    public function send_sms($msisdn, $message)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://sdp.rashin.org/api/sms/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => '{"Msisdn": "'.$msisdn.'", "TraceId": "'.mt_rand(1000000000000,9999999999999).'", "Message" : "'.$message.'" }',
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Accept: application/json",
+                "apikey: 5E6FA16F-9AC6-4F70-98CA-24092D3B1030",
+                "cache-control: no-cache"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        /** log */
+        Log::create([
+            'msisdn' => $msisdn,
+            'client_input' => '{"Msisdn": "'.$msisdn.'", "TraceId": "'.mt_rand(1000000000000,9999999999999).'", "Message" : "'.$message.'" }',
+            'server_response' => $response
+        ]);
+        /** end log */
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            return $response;
+        }
+    }
 
 
 }
