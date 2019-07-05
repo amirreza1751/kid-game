@@ -37,7 +37,7 @@ class NotificationController extends Controller
         Notification::create($request->all());
 
         if ($request['EventType'] == 1.1){     /** yani karbar subscribe shode */
-            app('App\Http\Controllers\API\ChargingConfirmationController')->send_sms('98'.$request['Msisdn'], 'به سرویس نوتیفیکیشن کیدگیم خوش آمدید.');
+            app('App\Http\Controllers\API\ChargingConfirmationController')->send_sms('98'.$request['Msisdn'], 'ثبت نام شما در سرویس کیدگیم کامل شد.');
             $user = User::where('mobile_number', '98'.$request['Msisdn'])->first();
             if (!isset($user)){     /** dare check mikone ke age in karbar ghablan sabt shode bude dobare nasazesh. */
                 User::create([
